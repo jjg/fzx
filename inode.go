@@ -54,3 +54,22 @@ func (i *Inode) Load(storageLocation *string, fzxPath *string) error {
 
 	return nil
 }
+
+func (i *Inode) Store(storageLocation *string) error {
+
+	var err error
+	var inodeJson []byte
+
+	//i.Created = time.Now()
+	i.Fingerprint = stringToSha1(i.Url)
+
+	// Write the contents of this inode to storage.
+	inodeJson, err = json.Marshal(i)
+	inodeFilename := fmt.Sprintf("%v/%v.json", *storageLocation, i.Fingerprint)
+
+	// TODO: See if this is the best way to write a file.
+	// TODO: Do some error handling around this write.
+	ioutil.WriteFile(inodeFilename, inodeJson, 0644)
+
+	return err
+}
