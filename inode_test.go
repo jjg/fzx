@@ -36,6 +36,29 @@ func TestStoreInode(t *testing.T) {
 	if err := inode.Store(&storageLocation); err != nil {
 		t.Fatal(err)
 	}
+}
 
-	// TODO: Maybe load & test it?
+func TestModifyInode(t *testing.T) {
+
+	// Load an existing JSFS inode
+	// Taken from files in testdata dir
+	fzxPath := "/localhost/utils/jsfsmoke"
+	storageLocation := "./testdata/blocks"
+
+	inode := &Inode{}
+	if err := inode.Load(&storageLocation, &fzxPath); err != nil {
+		t.Fatal(err)
+	}
+
+	// Modify version
+	inode.Version = inode.Version + 1
+
+	// Store the modified inode
+	if err := inode.Store(&storageLocation); err != nil {
+		t.Fatal(err)
+	}
+
+	// NOTE: At this point JSFS should be used to test the modified inode
+
+	// TODO: Modify Created
 }
