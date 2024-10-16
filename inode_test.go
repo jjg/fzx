@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"testing"
+	"time"
 )
 
 // This test was created to ensure basic compatibility with existing JSFS pools.
@@ -53,12 +54,22 @@ func TestModifyInode(t *testing.T) {
 	// Modify version
 	inode.Version = inode.Version + 1
 
+	// Modify Created
+	now := time.Now()
+	inode.Created = now.UnixMilli()
+
 	// Store the modified inode
 	if err := inode.Store(&storageLocation); err != nil {
 		t.Fatal(err)
 	}
 
 	// NOTE: At this point JSFS should be used to test the modified inode
+}
 
-	// TODO: Modify Created
+func msToTime(ms int64) time.Time {
+	return time.UnixMilli(ms)
+}
+
+func timeToMs(t time.Time) int64 {
+	return t.UnixMilli()
 }

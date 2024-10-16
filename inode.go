@@ -15,7 +15,7 @@ type Block struct {
 
 type Inode struct {
 	Url               string  `json:"url"`
-	Created           int     `json:"created"` // TODO: Figure out how to parse as datetime
+	Created           int64   `json:"created"` // TODO: Figure out how to parse as datetime
 	Version           int     `json:"version"`
 	Private           bool    `json:"private"`
 	Encrypted         bool    `json:"encrypted"`
@@ -30,6 +30,7 @@ type Inode struct {
 	Media_type        string  `json:"media_type"`
 }
 
+// TODO: Probably move these couple of util functions to a util module
 func stringToSha1(in string) string {
 	h := sha1.New()
 	h.Write([]byte(in))
